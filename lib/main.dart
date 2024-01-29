@@ -1,5 +1,8 @@
+import 'dart:async';
 import 'dart:io';
 
+import 'package:coromandal_app/module/dashboard/dashboard_view.dart';
+import 'package:coromandal_app/module/login/login_view.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/scheduler.dart';
 import 'package:get/get.dart';
@@ -75,13 +78,13 @@ class _MyHomePageState extends State<MyHomePage> with WidgetsBindingObserver{
     Future.delayed(const Duration(milliseconds: 10), () {
       GeneralController.to.isDarkMode.value = ThemeService().loadThemeFromBox();
     });
-    // Timer(const Duration(seconds: 2), () {
-    //   if (getIsLogin()) {
-    //     Get.off(() => const CommonDashboard());
-    //   } else {
-    //     Get.off(() => const LoginScreen());
-    //   }
-    // });
+    Timer(const Duration(seconds: 2), () {
+      if (getIsLogin()) {
+        Get.off(() => const DashboardView());
+      } else {
+        Get.off(() => const LoginView());
+      }
+    });
     super.initState();
   }
 

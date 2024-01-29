@@ -1,4 +1,3 @@
-import 'package:coromandal_app/module/plant/plant_overview_view.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
