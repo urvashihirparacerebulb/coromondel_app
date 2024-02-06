@@ -1,4 +1,4 @@
-import 'package:coromandal_app/module/plant/plant_detail_page.dart';
+import 'package:coromandal_app/module/plant/overview_page.dart';
 import 'package:coromandal_app/module/theme/convert_theme_colors.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
