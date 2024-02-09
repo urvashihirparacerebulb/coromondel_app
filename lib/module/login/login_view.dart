@@ -1,3 +1,4 @@
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import '../common_widgets/common_widget.dart';
@@ -142,19 +143,28 @@ class _LoginViewState extends State<LoginView> {
                             width: MediaQuery.of(context).size.width * 0.8,
                             child: TextButton(
                               onPressed: () {
-                                if(employeeId.text.isNotEmpty){
-                                  if(password.text.isNotEmpty){
-                                    if(employeeId.text == loginEmpId && password.text == loginPass){
-                                      setIsLogin(isLogin: true);
-                                      Get.offAll(() => const DashboardView());
-                                    }else{
-                                      showSnackBar(message: "Wrong credentials");
+                                if(kDebugMode){
+                                  setIsLogin(isLogin: true);
+                                  Get.offAll(() => const DashboardView());
+                                }else {
+                                  if (employeeId.text.isNotEmpty) {
+                                    if (password.text.isNotEmpty) {
+                                      if (employeeId.text == loginEmpId &&
+                                          password.text == loginPass) {
+                                        setIsLogin(isLogin: true);
+                                        Get.offAll(() => const DashboardView());
+                                      } else {
+                                        showSnackBar(
+                                            message: "Wrong credentials");
+                                      }
+                                    } else {
+                                      showSnackBar(
+                                          message: "Password must not be empty");
                                     }
-                                  }else{
-                                    showSnackBar(message: "Password must not be empty");
+                                  } else {
+                                    showSnackBar(
+                                        message: "Employee id must not be empty");
                                   }
-                                }else{
-                                  showSnackBar(message: "Employee id must not be empty");
                                 }
                               },
                               style: ButtonStyle(

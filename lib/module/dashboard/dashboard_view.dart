@@ -24,10 +24,10 @@ class _DashboardViewState extends State<DashboardView> {
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           commonHeader(title: "Dashboard",isBack: false),
-          commonVerticalSpacing(spacing: 20),
-          commonHeaderTitle(title: "     Welcome Vizag",fontWeight: 2,fontSize: 1.4,
-              align: TextAlign.start),
-          commonVerticalSpacing(spacing: 20),
+          // commonVerticalSpacing(spacing: 20),
+          // commonHeaderTitle(title: "     Welcome Vizag",fontWeight: 2,fontSize: 1.4,
+          //     align: TextAlign.start),
+          // commonVerticalSpacing(spacing: 20),
           Container(
             margin: const EdgeInsets.symmetric(horizontal: 16),
             child: ListView.separated(
@@ -54,10 +54,10 @@ class _DashboardViewState extends State<DashboardView> {
                       children: [
                         Row(
                           children: [
-                            Image(image: dashboard1Image),
+                            Image(image: index == 0 ? visagImage : index == 1 ? ennoreImage : kokinadaImage,height: 60,width: 60,),
                             commonHorizontalSpacing(spacing: 20),
                             commonHeaderTitle(
-                                title: index == 0 ? "Vizag" : index == 1 ? "Ennore" : "Kakinada",
+                                title: index == 0 ? "Visakhapatnam" : index == 1 ? "Ennore" : "Kakinada",
                                 fontSize: 1.3,
                                 fontWeight: 1
                             )

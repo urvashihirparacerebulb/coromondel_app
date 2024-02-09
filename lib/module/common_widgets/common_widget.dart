@@ -3,6 +3,7 @@ import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 
 import '../setting/setting_view.dart';
+import '../utility/assets_utility.dart';
 import '../utility/color_utility.dart';
 import '../utility/theme_utils.dart';
 
@@ -11,16 +12,17 @@ BorderRadius commonButtonBorderRadius = BorderRadius.circular(10.0);
 commonHeader({String title = "", bool isBack = true}){
   return Container(
     height: 170,
-    decoration: const BoxDecoration(
-        gradient: LinearGradient(
-          begin: Alignment.topCenter,
-          end: Alignment.bottomCenter,
-          stops: [0.1, 1.0],
-          colors: [
-            firstColor,secondaryColor
-          ],
-        ),
-        borderRadius: BorderRadius.only(
+    decoration: BoxDecoration(
+        // gradient: LinearGradient(
+        //   begin: Alignment.topCenter,
+        //   end: Alignment.bottomCenter,
+        //   stops: [0.1, 1.0],
+        //   colors: [
+        //     firstColor,secondaryColor
+        //   ],
+        // ),
+      image: DecorationImage(image: bgImage),
+        borderRadius: const BorderRadius.only(
             bottomRight: Radius.circular(40)
         )
     ),

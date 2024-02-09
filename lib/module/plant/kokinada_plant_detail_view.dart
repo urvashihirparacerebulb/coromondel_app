@@ -28,17 +28,17 @@ class _KokinadaPlantDetailViewState extends State<KokinadaPlantDetailView> {
 
   List<String> emsMobileLinks = [];
 
-  getGivenURL({int? index}) {
-    if(widget.title == "Train C"){
-      return trainCLinks[index!];
-    }else if(widget.title == "Train AB"){
-      return trainABCLinks[index!];
-    }else if(widget.title == "EMS-Mobile App"){
-      return emsMobileLinks[index!];
-    }
-  }
+  // getGivenURL({int? index}) {
+  //   if(widget.title == "Train C"){
+  //     return trainCLinks[index!];
+  //   }else if(widget.title == "Train AB"){
+  //     return trainABCLinks[index!];
+  //   }else if(widget.title == "EMS-Mobile App"){
+  //     return emsMobileLinks[index!];
+  //   }
+  // }
 
-  commonRows({String title = ""}){
+  commonRows({String title = "", link = ""}){
     return Padding(
       padding: const EdgeInsets.symmetric(vertical: 8.0),
       child: Row(
@@ -46,7 +46,18 @@ class _KokinadaPlantDetailViewState extends State<KokinadaPlantDetailView> {
         children: [
           commonHeaderTitle(title: title,fontWeight: 2,
               fontSize: 1.1),
-          commonHeaderTitle(title: "30 L",fontSize: 1.1, isChangeColor: true,color: lightFontColor),
+          link != "" ?
+          FutureBuilder(
+              future: linkWiseAPICall(link),
+              builder: (context, data) {
+                return Expanded(child: commonHeaderTitle(
+                    title: data.data.toString(),
+                    fontSize: 1.1, isChangeColor: true,color: lightFontColor,
+                    align: TextAlign.end
+                ));
+              }
+          ) :
+          commonHeaderTitle(title: "-----",fontSize: 1.1, isChangeColor: true,color: lightFontColor),
         ],
       ),
     );
@@ -102,62 +113,82 @@ class _KokinadaPlantDetailViewState extends State<KokinadaPlantDetailView> {
                         ),
 
                         commonHorizontalSpacing(spacing: 20),
-                        Expanded(
-                          flex: 3,
-                          child: Align(
-                            alignment: Alignment.bottomRight,
-                            child: Row(
-                              mainAxisAlignment: MainAxisAlignment.end,
-                              crossAxisAlignment: CrossAxisAlignment.end,
-                              children: [
-                                commonHeaderTitle(
-                                    title: "Throughput: ",
-                                    fontWeight: 2,
-                                    fontSize: 1.1,align: TextAlign.end
-                                ),
-                                FutureBuilder(
-                                    future: linkWiseAPICall(getGivenURL(index: index)),
-                                    builder: (context, data) {
-                                      return Expanded(child: commonHeaderTitle(
-                                          title: data.data.toString(),
-                                          fontSize: 1.1, isChangeColor: true,color: lightFontColor,
-                                          align: TextAlign.end
-                                      ));
-                                    }
-                                )
-                              ],
-                            ),
-                          ),
-                        )
+                        // Expanded(
+                        //   flex: 3,
+                        //   child: Align(
+                        //     alignment: Alignment.bottomRight,
+                        //     child: Row(
+                        //       mainAxisAlignment: MainAxisAlignment.end,
+                        //       crossAxisAlignment: CrossAxisAlignment.end,
+                        //       children: [
+                        //         commonHeaderTitle(
+                        //             title: "Throughput: ",
+                        //             fontWeight: 2,
+                        //             fontSize: 1.1,align: TextAlign.end
+                        //         ),
+                        //         FutureBuilder(
+                        //             future: linkWiseAPICall(getGivenURL(index: index)),
+                        //             builder: (context, data) {
+                        //               return Expanded(child: commonHeaderTitle(
+                        //                   title: data.data.toString(),
+                        //                   fontSize: 1.1, isChangeColor: true,color: lightFontColor,
+                        //                   align: TextAlign.end
+                        //               ));
+                        //             }
+                        //         )
+                        //       ],
+                        //     ),
+                        //   ),
+                        // )
                       ],
                     ),
                   ),
-                  children: widget.title == "Train C" ? [
+                  children: widget.subElement[index] == "Train C" ? [
                     commonRows(title: "Plant running status "),
-                    commonRows(title: "Current & Previous day production"),
+                    commonRows(title: "Current day production",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49Q2nSdZO2q7hGwgRjATTxq5wpsDyrBHCzVoNJhJArSvZfwV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0N8Q0FMQyAtIFRPREFZIFBST0RVQ1RJT04/value"),
+                    commonRows(title: "Previous day production",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49Q2nSdZO2q7hGwgRjATTxq5wsRCU9eLJplMteOsxO2Q63AV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0N8Q0FMQyAtIFlFU1RFUkRBWSBQUk9EVUNUSU9O/value"),
                     commonRows(title: "PR Back pressure(NH3 & NP acid)"),
-                    commonRows(title: "Recycle elevator load"),
-                    commonRows(title: "Stack parameters(NH3,HF & SPM)"),
-                    commonRows(title: "Product temperature"),
-                    commonRows(title: "Product moisture"),
-                  ] : widget.title == "Train AB" ? [
+                    commonRows(title: "Recycle elevator load",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QFHadZO2q7hGwgRjATTxq5whxObTpCs2lUY2_2gBXH4FAV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0NcQzJIMTh8RUxFVkFUT1IgQ1VSUkVOVA/value"),
+                    commonRows(title: "Stack parameters(NH3)",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QM3WdZO2q7hGwgRjATTxq5w4-WHlP-v5VU9H-VhQ8KKcAV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0NcQzFKMDV8T05MSU5FIFNUQUNLIEFNTU9OSUEgRU1NSVNJT04/value"),
+                    commonRows(title: "Stack parameters(HF)",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QM3WdZO2q7hGwgRjATTxq5wpgDmcxczH1sZC3EsJj31hgV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0NcQzFKMDV8T05MSU5FIFNUQUNLIEhGIEVNTUlTSU9O/value"),
+                    commonRows(title: "Stack parameters(SPM)",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QM3WdZO2q7hGwgRjATTxq5wxUSs59iRa1k9nMGl3f4fvgV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0NcQzFKMDV8T05MSU5FIFNUQUNLIFNQTSBEVVNUIEVNTUlTSU9O/value"),
+                    commonRows(title: "Product temperature",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QCHadZO2q7hGwgRjATTxq5wn6KNMOLEL1YkgMgCj6b2pwV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0NcQzJIMTB8Q09OVkVZT1IgVEVNUEVSQVRVUkU/value"),
+                    commonRows(title: "Product moisture",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QMHWdZO2q7hGwgRjATTxq5wj3MHN81g114tRh3_REkNsQV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0NcQzFIMTB8UFJPRFVDVCBNT0lTVFVSRSBBTkFMWVNFUiBPTiBQUk9EVUNUIENPTlZFWU9S/value"),
+                  ] : widget.subElement[index] == "Train A" ? [
                     commonRows(title: "Plant status"),
                     commonRows(title: "Grade Opeartion"),
-                    commonRows(title: "Today Production"),
-                    commonRows(title: "Previous day Production"),
-                    commonRows(title: "Onstream hours"),
+                    commonRows(title: "Today Production",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QKXKdZO2q7hGwgRjATTxq5wJQNBuK6YYVoaDQ_PKYLy0gV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0F8Q0FMQyAtIFRPREFZIFRPVEFMIFBST0RVQ1RJT04/value"),
+                    commonRows(title: "Previous day Production",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QKXKdZO2q7hGwgRjATTxq5welC7GNbHiFwRV09ljHj-ogV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0F8Q0FMQyAtIFlFU1RFUkRBWSBUT1RBTCBQUk9EVUNUSU9O/value"),
+                    commonRows(title: "Onstream hours",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QKXKdZO2q7hGwgRjATTxq5w9daV4n-V5FcEzYMikgR7EwV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0F8Q0FMQyAtIFBMQU5UIFRPREFZIFJVTk5JTkcgVElNRSBIT1VSUw/value"),
                     commonRows(title: "PN reactor temperature"),
                     commonRows(title: "Pipe Reactor Skin temperature"),
                     commonRows(title: "Pipe Reactor back pressure"),
-                    commonRows(title: "Product Temperature"),
+                    commonRows(title: "Product Temperature",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49Q_XKdZO2q7hGwgRjATTxq5waWN92eVlBFw9SeaAqapiswV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0FcMDUxLUlDLTEwM0F8Q09OVkVZT1IgVEVNUEVSQVRVUkU/value"),
                     commonRows(title: "Product Moisture"),
                     commonRows(title: "Ammonia stack Emission"),
-                    commonRows(title: "HF stack Emission"),
-                    commonRows(title: "SPM stack Emission"),
+                    commonRows(title: "HF stack Emission",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QXXOdZO2q7hGwgRjATTxq5wV_2mIwFPolgUtiiHuWgZZAV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0FcMy1ELTEwMUF8U1RBQ0sgSFlEUk9GTFVPUklERSBFTUlTU0lPTg/value"),
+                    commonRows(title: "SPM stack Emission",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QXXOdZO2q7hGwgRjATTxq5wZI-ejfaaQVobPgmiPtLJmgV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0FcMy1ELTEwMUF8U1RBQ0sgU1BNIEVNSVNTSU9O/value"),
                     commonRows(title: "Thioadd Flow/Molten sulphur flow"),
                     commonRows(title: "Tail Gas Scrubber PH"),
                     commonRows(title: "Sulphuric Acid to Tail gas scrubber"),
-                  ] : widget.title == "EMS-Mobile App" ? [
+                  ] : widget.subElement[index] == "Train B" ? [
+                    commonRows(title: "Plant status"),
+                    commonRows(title: "Grade Opeartion"),
+                    commonRows(title: "Today Production",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QjXOdZO2q7hGwgRjATTxq5w4uZnvTKWU1ItI3m7SkrLtAV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0J8Q0FMQyAtIFRPREFZIFBST0RVQ1RJT04/value"),
+                    commonRows(title: "Previous day Production",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QjXOdZO2q7hGwgRjATTxq5w0sr_r0744lAr5h-0ZVaA7wV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0J8Q0FMQyAtIFlFU1RFUkRBWSBQUk9EVUNUSU9O/value"),
+                    commonRows(title: "Onstream hours",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QjXOdZO2q7hGwgRjATTxq5wLg2k7TfTLFAP-Dckms6mKgV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0J8Q0FMQyAtIFBMQU5UIFRPREFZIFJVTk5JTkcgVElNRSBIT1VSUw/value"),
+                    commonRows(title: "PN reactor temperature"),
+                    commonRows(title: "Pipe Reactor Skin temperature"),
+                    commonRows(title: "Pipe Reactor back pressure"),
+                    commonRows(title: "Product Temperature",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QUHSdZO2q7hGwgRjATTxq5wAu6TxwjlPVIQFQWjHBB-NwV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0JcMDUxLUlDLTEwM0J8Q09OVkVZT1IgVEVNUEVSQVRVUkU/value"),
+                    commonRows(title: "Product Moisture"),
+                    commonRows(title: "Ammonia stack Emission"),
+                    commonRows(title: "HF stack Emission",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QrXSdZO2q7hGwgRjATTxq5wp_qmIwFPolgUtiiHuWgZZAV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0JcMy1ELTEwMUJ8U1RBQ0sgSFlEUk9GTFVPUklERSBFTUlTU0lPTg/value"),
+                    commonRows(title: "SPM stack Emission",link: "https://14.99.99.166:4080/piwebapi/streams/F1AbEsrqDYYGzckqgTi3xAtc49QrXSdZO2q7hGwgRjATTxq5wlIiejfaaQVobPgmiPtLJmgV0lOLTRPTlFHUFNSMkM1XENPUk9NQU5ERUxcQ09ST01BTkRFTCBJTlRFUk5BVElPTkFMXEtBS0lOQURBXEVMRU1FTlRXSVNFXFRSQUlOX0JcMy1ELTEwMUJ8U1RBQ0sgU1BNIEVNSVNTSU9O/value"),
+                    commonRows(title: "Thioadd Flow/Molten sulphur flow"),
+                    commonRows(title: "Tail Gas Scrubber PH"),
+                    commonRows(title: "Sulphuric Acid to Tail gas scrubber"),
+                  ] : widget.subElement[index] == "EMS-Mobile App" ? [
                     commonRows(title: "Total Active Power(KW)"),
                     commonRows(title: "Total Grid Power (MW)"),
                     commonRows(title: "Total Captive Power (MW)"),

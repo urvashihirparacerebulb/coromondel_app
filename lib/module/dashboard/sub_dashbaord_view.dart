@@ -37,7 +37,7 @@ class _SubDashboardViewState extends State<SubDashboardView> {
               ListView.separated(
                 padding: const EdgeInsets.all(20),
                 shrinkWrap: true,
-                itemCount: 6,
+                itemCount: 5,
                 separatorBuilder: (context, index) {
                   return const Divider();
                 },
@@ -50,9 +50,8 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                         Get.to(() => VisagPlantDetailView(
                             title: index == 0 ? "SAP" :
                             index == 1 ? "PAP" :
-                            index == 2 ? "Train C" :
-                            index == 3 ? "Train AB" :
-                            index == 4 ? "EMS-Mobile App" :
+                            index == 2 ? "Train" :
+                            index == 3 ? "EMS-Mobile App" :
                             "Asset Health",
                           // title: index == 1 ? "SAP" : index == 2 ? "PAP" : index == 3 ? "Train" : index == 4 ? "Utility Complex" : index == 5 ? "Power" : "Maintenance",
                           subElement: index == 0 ? [
@@ -60,10 +59,8 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                           ] : index == 1 ? [
                             "PAP 01","PAP 02"
                           ] : index == 2 ? [
-                            "Train C"
+                            "Train A","Train B","Train C"
                           ] : index == 3 ? [
-                            "Train A","Train B"
-                          ] : index == 4 ? [
                             "AAST 01","AAST 02","Utility","Deal"
                           ] : [
                             "O/S hrs","R/D Plants","Critical Equipment"
@@ -83,16 +80,14 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                                   : index == 1 ? papImage
                                   : index == 2 ? complexImage
                                   : index == 3 ? complexImage
-                                  : index == 4 ? overallImage
                                   : overallImage,
                                   height: 44,width: 44),
                               commonHorizontalSpacing(spacing: 20),
                               commonHeaderTitle(
                                   title: index == 0 ? "SAP" :
                                   index == 1 ? "PAP" :
-                                  index == 2 ? "Train C" :
-                                  index == 3 ? "Train AB" :
-                                  index == 4 ? "EMS-Mobile App" :
+                                  index == 2 ? "Train" :
+                                  index == 3 ? "Energy Management System" :
                                   "Asset Health",
                                   fontSize: 1.3,
                                   fontWeight: 1
@@ -137,7 +132,7 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                               "SAP 01","SAP 02"
                             ] : index == 1 ? [
                               "PAP"
-                            ] : index == 3 ? [
+                            ] : index == 2 ? [
                               "AAST 01","AAST 02","Utility","Deal"
                             ] : [
                               "O/S hrs","R/D Plants","Critical Equipment"
@@ -159,7 +154,7 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                                   ,height: 44,width: 44,),
                               commonHorizontalSpacing(spacing: 20),
                               commonHeaderTitle(
-                                  title: index == 0 ? "SAP" : index == 1 ? "PAP" : index == 2 ? "Asset Health" : "EMS-Mobile App",
+                                  title: index == 0 ? "SAP" : index == 1 ? "PAP" : index == 2 ? "Asset Health" : "Energy Management System",
                                   fontSize: 1.3,
                                   fontWeight: 1
                               )
@@ -175,7 +170,7 @@ class _SubDashboardViewState extends State<SubDashboardView> {
               ListView.separated(
                 padding: const EdgeInsets.all(20),
                 shrinkWrap: true,
-                itemCount: 3,
+                itemCount: 2,
                 separatorBuilder: (context, index) {
                   return const Divider();
                 },
@@ -183,11 +178,9 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                   return InkWell (
                     onTap: () {
                         Get.to(() => KokinadaPlantDetailView(
-                            title: index == 0 ? "Train AB" : index == 1 ? "Train C" : "EMS-Mobile App",
+                            title: index == 0 ? "Train" : "EMS-Mobile App",
                             subElement: index == 0 ? [
-                              "Train A","Train B"
-                            ] : index == 1 ? [
-                              "Train C"
+                              "Train A","Train B", "Train C"
                             ] : [
                               "AAST 01","AAST 02","Utility","Deal"
                             ]
@@ -202,11 +195,10 @@ class _SubDashboardViewState extends State<SubDashboardView> {
                             children: [
                               Image
                                 (image: index == 0 ? complexImage
-                                  : index == 1 ? utilityComplexImage
                                   : overallImage,height: 44,width: 44,),
                               commonHorizontalSpacing(spacing: 20),
                               commonHeaderTitle(
-                                  title: index == 0 ? "Train AB" : index == 1 ? "Train C" : "EMS-Mobile App",
+                                  title: index == 0 ? "Train": "Energy Management System",
                                   fontSize: 1.3,
                                   fontWeight: 1
                               )
